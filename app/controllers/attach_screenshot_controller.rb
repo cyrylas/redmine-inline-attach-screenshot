@@ -10,7 +10,7 @@ class AttachScreenshotController < ApplicationController
     path = "#{RAILS_ROOT}/tmp/"
     if request.post?
       date = DateTime.now.strftime("%H%M%S")
-      @fname = make_tmpname(date)                 
+      @fname = make_tmpname(date)
       file = File.new(path + make_tmpname(date), "wb");
       file.write(params[:attachments].read);
       file.close();
@@ -33,6 +33,6 @@ class AttachScreenshotController < ApplicationController
   private
 
   def make_tmpname(date, name = "screenshot.png")
-    sprintf('%d_%d%s', User.current.id, date, name)
+    sprintf('%d_%f%s', User.current.id, date, name)
   end
 end

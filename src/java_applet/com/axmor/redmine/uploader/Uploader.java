@@ -1,9 +1,7 @@
 package com.axmor.redmine.uploader;
 
-import java.applet.AppletContext;
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
@@ -42,63 +40,62 @@ public class Uploader extends JApplet
   private ImagePanel canvas;
   private JButton attachButton;
 
-  public void init()
-  {
+  /**
+   * Initialization of the uploader applet.
+   */
+  public void init() {
     setSize(400, 400);
-    JPanel mainPanel = new JPanel(new BorderLayout(10, 5), true);
-
     this.canvas = new ImagePanel();
     this.canvas.setBackground(Color.WHITE);
+    
     JScrollPane imageScrollPane = new JScrollPane(this.canvas, 20, 30);
-
     imageScrollPane.setBorder(new TitledBorder(getParameter("label.image", "Image")));
 
-    JPanel buttonPane = new JPanel();
-    buttonPane.setLayout(new BoxLayout(buttonPane, 2));
-    buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-
     JButton pasteButton = new JButton(getParameter("label.button.paste", "Paste image from clipboard"));
-
     pasteButton.addActionListener(new ActionListener()
     {
       public void actionPerformed(ActionEvent e) {
         Uploader.this.pasteImageFromClipboard();
       }
     });
+    
     this.attachButton = new JButton(getParameter("label.button.attach", "Attach"));
-
-    this.attachButton.addActionListener(new ActionListener()
-    {
+    this.attachButton.addActionListener(new ActionListener() {
       public void actionPerformed(ActionEvent e) {
         Uploader.this.attachImage();
       }
     });
+    
     JButton cancelButton = new JButton(getParameter("label.button.cancel", "cancel"));
-
-    cancelButton.addActionListener(new ActionListener()
-    {
+    cancelButton.addActionListener(new ActionListener(){
       public void actionPerformed(ActionEvent e) {
         Uploader.this.closeApplet();
       }
     });
+
+    JPanel buttonPane = new JPanel();
+    buttonPane.setLayout(new BoxLayout(buttonPane, 2));
+    buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
     buttonPane.add(pasteButton);
     buttonPane.add(Box.createHorizontalGlue());
     buttonPane.add(this.attachButton);
     buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
     buttonPane.add(cancelButton);
 
+    JPanel mainPanel = new JPanel(new BorderLayout(10, 5), true);
     mainPanel.add(imageScrollPane, "Center");
     mainPanel.add(buttonPane, "South");
-
     getContentPane().add(mainPanel);
 
+    // Automatically paste image from clipboard if it's already on there.
     pasteImageFromClipboard();
   }
 
-  private void attachImage()
-  {
-    try
-    {
+  /**
+   * Uploads whatever image is loaded on the canvas to the Redmine server as per attach.url parameter.
+   */
+  private void attachImage() {
+    try {
       String fileId = sendContentToServer(getParameter("attach.url", "http://localhost:3000/attach_screenshot"), this.canvas.getImage());
 
       getAppletContext().showDocument(new URL("javascript:addAttachScreen('" + fileId + "');"));
@@ -110,45 +107,50 @@ public class Uploader extends JApplet
     }
   }
 
+  /**
+   * HTTP upload of BufferedImage image.
+   * @param url The URL to POST the image to.
+   * @param image The image to upload.
+   * @return The file ID that our Redmine plugin saved this temporary image as.
+   * @throws IOException
+   */
   private String sendContentToServer(String url, BufferedImage image)
-    throws IOException
-  {
+    throws IOException {
     URL destURL = new URL(url);
-
     HttpURLConnection urlConn = (HttpURLConnection)destURL.openConnection();
     urlConn.setRequestMethod("POST");
     urlConn.setDoOutput(true);
     urlConn.setDoInput(true);
     urlConn.setUseCaches(false);
     urlConn.setAllowUserInteraction(false);
-
     urlConn.setRequestProperty("Content-type", "multipart/form-data; boundary=" + boundary);
 
     OutputStream outStream = urlConn.getOutputStream();
     try {
       outStream.write(("--" + boundary + newline).getBytes(ENCODING));
       outStream.write(("Content-Disposition: form-data; name=\"key\"\r\n\r\n" + getParameter("rss.key") + newline).getBytes(ENCODING));
-
       outStream.write(("--" + boundary + newline).getBytes(ENCODING));
       outStream.write("Content-Disposition: file; name=\"attachments\"; filename=\"screenshot.png\"\r\nContent-Type: image/png\r\nContent-Transfer-Encoding: binary\r\n\r\n".getBytes(ENCODING));
-
       ImageIO.write(image, "png", outStream);
       outStream.write((newline + "--" + boundary + newline).getBytes(ENCODING));
     } finally {
       outStream.close();
     }
+    
     BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
     try {
       String str = in.readLine();
       return str; 
-    } finally { in.close(); }
-    
+    } finally { 
+    	in.close();
+    }
   }
 
-  private void closeApplet()
-  {
-    try
-    {
+  /**
+   * Closes the applet.
+   */
+  private void closeApplet() {
+    try {
       getAppletContext().showDocument(new URL("javascript:hideAttachScreen();"));
     }
     catch (MalformedURLException e) {
@@ -156,16 +158,17 @@ public class Uploader extends JApplet
     }
   }
 
+  /**
+   * Pulls the image off of the clipboard and loads it into the ImagePanel canvas.
+   */
   private void pasteImageFromClipboard()
   {
     this.attachButton.setEnabled(false);
     Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
     if (clipboard.isDataFlavorAvailable(DataFlavor.imageFlavor)) {
       Transferable contents = clipboard.getContents(null);
-      if (contents != null)
-      {
-        try
-        {
+      if (contents != null) {
+        try {
           if (contents.isDataFlavorSupported(DataFlavor.imageFlavor)) {
             this.canvas.setImage((BufferedImage)contents.getTransferData(DataFlavor.imageFlavor));
             this.attachButton.setEnabled(true);
@@ -179,8 +182,13 @@ public class Uploader extends JApplet
     }
   }
 
-  private final String getParameter(String key, String def)
-  {
+  /**
+   * GetParameter with a fallback onto a default value if unavailable.
+   * @param key Key to attempt to retrieve.
+   * @param def Default value on failure.
+   * @return Value of key if exists, or default.
+   */
+  private final String getParameter(String key, String def){
     String param = getParameter(key);
     if (param == null) {
       return def;

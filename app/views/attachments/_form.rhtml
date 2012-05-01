@@ -1,6 +1,6 @@
 <% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'attach_screenshot', :plugin => 'redmine_attach_screenshot' %>
-    <%= javascript_include_tag 'attach_screenshot', :plugin => 'redmine_attach_screenshot' %>
+    <%= stylesheet_link_tag 'attach_screenshot', :plugin => 'redmine-inline-attach-screenshot' %>
+    <%= javascript_include_tag 'attach_screenshot', :plugin => 'redmine-inline-attach-screenshot' %>
 <% end %>
 <span id="attachments_fields">
   <span>
@@ -11,83 +11,82 @@
   </span>
 </span>
 <small><%= link_to l(:label_add_another_file), '#', :onclick => 'addFileField(); return false;' %>
-(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
+	(<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>)
 </small>
 <br />
 <br />
 <% if @issue %>
-<% if @issue.new_record? %>
-    <label>
-<% end %>
-<%= l(:label_screenshots) %>
-<% if @issue.new_record? %>
-    </label>
-<% else %>
-    <br />
-<% end %>
-<span id="attach_applet" style="display: none; position: fixed; top: 50px; left: 10px; border: solid 1px #BBB;"></span>
-<span id="screenshots_fields">
-<%= submit_tag l(:button_add), :onclick => 'showAttachScreen(); return false;'%>
-</span>
-<small><%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %>
-</small>
-<br />
-<span id="screenshots"></span>
-<br />
+	<% if @issue.new_record? %>
+		<label>
+	<% end %>
+	<%= l(:label_screenshots) %>
+	<% if @issue.new_record? %>
+		</label>
+	<% else %>
+		<br />
+	<% end %>
+	<span id="screenshots_fields">
+	<%= submit_tag(l(:button_add), {:onclick => 'showAttachScreen(); return false;', :type => 'button'})%>
+	</span>
+	<small><%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes) %></small>
+	<span id="attach_applet" style="display: none; position: absolute; border: solid 1px #bbb;"></span>
+	<br />
+	<span id="screenshots"></span>
+	<script type="text/javascript">
+		function showAttachScreen() {
+			document.getElementById('attach_applet').style.display = 'block';
+			document.getElementById('attach_applet').innerHTML = 
+				'<applet codebase="<%= url_for(:only_path => false, :controller => 'welcome')%>plugin_assets/redmine-inline-attach-screenshot/javascripts/" code="com.axmor.redmine.uploader.Uploader.class" archive="uploader_applet.jar" height="250" width="400" MAYSCRIPT>'+
+				'<param name="label.image" value="<%= l(:label_image) %>">' +
+				'<param name="label.button.paste" value="<%= l(:label_button_paste) %>">' +
+				'<param name="label.button.attach" value="<%= l(:button_attach) %>">' +
+				'<param name="label.button.cancel" value="<%= l(:button_cancel) %>">' +
+				'<param name="error.close.msg" value="<%= l(:error_close_msg) %>">' +
+				'<param name="error.close.title" value="<%= l(:error_close_title) %>">' +
+				'<param name="attach.url" value="<%= url_for(:only_path => false, :controller => 'welcome')%>attach_screenshot">' +
+				'<param name="error.attach.msg" value="<%= l(:error_attach_msg) %>">' +
+				'<param name="error.attach.title" value="<%= l(:error_attach_title) %>">'	 +
+				'<param name="rss.key" value="<%= User.current.rss_key %>">'	 +
+				'Applet</applet>';
+		}
+		function addAttachScreen(fileId) {
+			var s = document.createElement("span");
+			s.id = fileId;
+			s.className = "screen_thumb";
 
-<script type="text/javascript">
-    function showAttachScreen() {
-        document.getElementById('attach_applet').style.display = 'block';
-        document.getElementById('attach_applet').innerHTML = '<applet codebase="<%= url_for(:only_path => false, :controller => 'welcome')%>plugin_assets/redmine_attach_screenshot/javascripts/" code="com.axmor.redmine.uploader.Uploader.class" archive="uploader_applet.jar" height="600" width="700" MAYSCRIPT>'+
-                                                             '<param name="label.image" value="<%= l(:label_image) %>">' +
-                                                             '<param name="label.button.paste" value="<%= l(:label_button_paste) %>">' +
-                                                             '<param name="label.button.attach" value="<%= l(:button_attach) %>">' +
-                                                             '<param name="label.button.cancel" value="<%= l(:button_cancel) %>">' +
-                                                             '<param name="error.close.msg" value="<%= l(:error_close_msg) %>">' +
-                                                             '<param name="error.close.title" value="<%= l(:error_close_title) %>">' +
-                                                             '<param name="attach.url" value="<%= url_for(:only_path => false, :controller => 'welcome')%>attach_screenshot">' +
-                                                             '<param name="error.attach.msg" value="<%= l(:error_attach_msg) %>">' +
-                                                             '<param name="error.attach.title" value="<%= l(:error_attach_title) %>">'	 +
-                                                             '<param name="rss.key" value="<%= User.current.rss_key %>">'	 +
-                                                             'Applet</applet>';
-    }
-    function addAttachScreen(fileId) {
-        var s = document.createElement("span");
-        s.id = fileId;
-        s.className = "screen_thumb";
+			var s1 = document.createElement("span");
+			s1.className = "st1";
+			var s2 = document.createElement("span");
+			s2.className = "st2";
 
-        var s1 = document.createElement("span");
-        s1.className = "st1";
-        var s2 = document.createElement("span");
-        s2.className = "st2";
+			var im = document.createElement("img");
+			im.width = "240";
+			im.src = "<%= url_for(:only_path => false, :controller => 'welcome')%>attach_screenshot?id=" + fileId;
 
-        var im = document.createElement("img");
-        im.src = "<%= url_for(:only_path => false, :controller => 'welcome')%>attach_screenshot?id=" + fileId;
+			var b = document.createElement("input");
+			b.type = "image";
+			b.src = "<%= url_for(:only_path => false, :controller => 'welcome')%>images/delete.png"
+			b.setAttribute("onClick", "deleteAttachScreen('" + fileId + "'); return false;");
 
-        var b = document.createElement("input");
-        b.type = "image";
-        b.src = "<%= url_for(:only_path => false, :controller => 'welcome')%>images/delete.png"
-        b.setAttribute("onClick", "deleteAttachScreen('" + fileId + "'); return false;");
+			var i = document.createElement("input");
+			i.type = "image";
+			i.src = "<%= url_for(:only_path => false, :controller => 'welcome')%>images/lightning.png";
+			i.setAttribute("onClick", "addLinkToAttachScreen('" + fileId + "'); return false;");
 
-        var i = document.createElement("input");
-	    i.type = "image";
-	    i.src = "<%= url_for(:only_path => false, :controller => 'welcome')%>images/lightning.png";
-	    i.setAttribute("onClick", "addLinkToAttachScreen('" + fileId + "'); return false;");
+			var d = document.createElement("input");
+			d.name = "screenshots[" + fileId + "][description]";
+			d.type = "text";
+			d.size = 15;
 
-        var d = document.createElement("input");
-        d.name = "screenshots[" + fileId + "][description]";
-        d.type = "text";
-        d.size = 15;
+			s1.appendChild(im);
+			s.appendChild(s1);
+			s2.appendChild(d);
+			s2.appendChild(b);
+			s2.appendChild(i);
+			s.appendChild(s2);
 
-        s1.appendChild(im);
-        s.appendChild(s1);
-        s2.appendChild(d);
-        s2.appendChild(b);
-        s2.appendChild(i);
-        s.appendChild(s2);
-
-        p = document.getElementById("screenshots");
-        p.appendChild(s);
-    }
-</script>
+			p = document.getElementById("screenshots");
+			p.appendChild(s);
+		}
+	</script>
 <% end %>

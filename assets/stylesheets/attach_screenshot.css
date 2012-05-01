@@ -11,6 +11,7 @@ span.screen_thumb {
   text-align: center;
   vertical-align: bottom;
   margin: 3px;
+  clear:left;
 }
 span.screen_thumb .st1 {
   display: table-cell;

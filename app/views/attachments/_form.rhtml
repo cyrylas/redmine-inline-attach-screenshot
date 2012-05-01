@@ -1,6 +1,6 @@
 <% content_for :header_tags do %>
-    <%= stylesheet_link_tag 'attach_screenshot', :plugin => 'redmine_attach_screenshot' %>
-    <%= javascript_include_tag 'attach_screenshot', :plugin => 'redmine_attach_screenshot' %>
+    <%= stylesheet_link_tag 'attach_screenshot', :plugin => 'redmine-inline-attach-screenshot' %>
+    <%= javascript_include_tag 'attach_screenshot', :plugin => 'redmine-inline-attach-screenshot' %>
 <% end %>
 <span id="attachments_fields">
   <span>
@@ -36,7 +36,7 @@
 		function showAttachScreen() {
 			document.getElementById('attach_applet').style.display = 'block';
 			document.getElementById('attach_applet').innerHTML = 
-				'<applet codebase="<%= url_for(:only_path => false, :controller => 'welcome')%>plugin_assets/redmine_attach_screenshot/javascripts/" code="com.axmor.redmine.uploader.Uploader.class" archive="uploader_applet.jar" height="250" width="400" MAYSCRIPT>'+
+				'<applet codebase="<%= url_for(:only_path => false, :controller => 'welcome')%>plugin_assets/redmine-inline-attach-screenshot/javascripts/" code="com.axmor.redmine.uploader.Uploader.class" archive="uploader_applet.jar" height="250" width="400" MAYSCRIPT>'+
 				'<param name="label.image" value="<%= l(:label_image) %>">' +
 				'<param name="label.button.paste" value="<%= l(:label_button_paste) %>">' +
 				'<param name="label.button.attach" value="<%= l(:button_attach) %>">' +

@@ -36,7 +36,7 @@ public class Uploader extends JApplet
   private static final long serialVersionUID = -935122463834512061L;
   private static final String newline = "\r\n";
   private static final String boundary = Long.toHexString(new Random().nextLong());
-  private static final String ENCODING = "UTF-8";
+  private static final String ENCODING = "utf-8";
   private ImagePanel canvas;
   private JButton attachButton;
 
@@ -96,7 +96,7 @@ public class Uploader extends JApplet
    */
   private void attachImage() {
     try {
-      String fileId = sendContentToServer(getParameter("attach.url", "http://localhost:3000/attach_screenshot"), this.canvas.getImage());
+      String fileId = sendContentToServer(getParameter("attach.url", "http://192.168.10.10/redmine_dev/attach_screenshot"), this.canvas.getImage());
 
       getAppletContext().showDocument(new URL("javascript:addAttachScreen('" + fileId + "');"));
 
@@ -123,16 +123,16 @@ public class Uploader extends JApplet
     urlConn.setDoInput(true);
     urlConn.setUseCaches(false);
     urlConn.setAllowUserInteraction(false);
-    urlConn.setRequestProperty("Content-type", "multipart/form-data; boundary=" + boundary);
+    urlConn.setRequestProperty("Content-Type", "multipart/form-data; boundary=" + boundary);
+    urlConn.setRequestProperty("User-Agent", "Redmine Screenshot Attach Applet");
 
     OutputStream outStream = urlConn.getOutputStream();
     try {
       outStream.write(("--" + boundary + newline).getBytes(ENCODING));
-      outStream.write(("Content-Disposition: form-data; name=\"key\"\r\n\r\n" + getParameter("rss.key") + newline).getBytes(ENCODING));
-      outStream.write(("--" + boundary + newline).getBytes(ENCODING));
-      outStream.write("Content-Disposition: file; name=\"attachments\"; filename=\"screenshot.png\"\r\nContent-Type: image/png\r\nContent-Transfer-Encoding: binary\r\n\r\n".getBytes(ENCODING));
+      outStream.write(("Content-Disposition: form-data; name=\"attachments\"; filename=\"screenshot.png\"" + newline).getBytes(ENCODING)); 
+      outStream.write(("Content-Type: image/png" + newline + newline).getBytes(ENCODING));
       ImageIO.write(image, "png", outStream);
-      outStream.write((newline + "--" + boundary + newline).getBytes(ENCODING));
+      outStream.write((newline + "--" + boundary +"--").getBytes(ENCODING));
     } finally {
       outStream.close();
     }

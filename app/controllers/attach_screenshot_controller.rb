@@ -1,5 +1,3 @@
-#require 'RMagick'
-
 class AttachScreenshotController < ApplicationController
   unloadable
   skip_before_filter :require_login
@@ -7,7 +5,11 @@ class AttachScreenshotController < ApplicationController
   accept_api_auth :index
 
   def index
-    path = "#{RAILS_ROOT}/tmp/"
+    if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
+      path = "#{RAILS_ROOT}/tmp/"
+    else
+      path = "#{Rails.root}/tmp/"
+    end
     if request.post?
       date = DateTime.now.strftime("%H%M%S")
       @fname = make_tmpname(date)

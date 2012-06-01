@@ -1,10 +1,16 @@
-= redmine_attach_screenshot
+=== Redmine Inline Attach Screenshot ===
 
-This plugin  allows attaching several screenshots from clipboard directly to a Redmine issue.
-Requires RMagick (http://rmagick.rubyforge.org/) to show screenshot thumbnails when adding/editing an issue.
-Compatibility: Redmine 1.1.0
+Redmine Compatible Versions:
+	2.0.x
+	1.4.x
+	
+
+Change Log:
+
+0.3.1:
+	- Redmine 2.0 compatability fix.
 
 Credits:
-Authors: Konstantin Zaitcev (kos@axmor.com), Sergei Vasilyev (vsv@axmor.com), Alexandr Poplavsky (poplavsky@axmor.com),
+Authors: Konstantin Zaitcev (kos@axmor.com), Sergei Vasilyev (vsv@axmor.com), Alexandr Poplavsky (poplavsky@axmor.com), StrangeWill.
 Inspired by Atlassian JIRA (http://www.atlassian.com/software/jira)
 Work sponsored by Axmor Software (http://www.axmor.com)

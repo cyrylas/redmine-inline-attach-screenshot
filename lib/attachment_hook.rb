@@ -2,7 +2,7 @@ require 'redmine'
 
 module AttachmentHook
   class Hooks < Redmine::Hook::ViewListener
-
+  
     def attach_screenshots (context ={})
       issue       = context[:issue]
       journal     = context[:journal]

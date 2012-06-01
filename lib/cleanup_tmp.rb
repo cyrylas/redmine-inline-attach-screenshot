@@ -25,7 +25,12 @@ module AttachScreenshotPlugin
 
     def self.cleanup      
       ss = sprintf('%d_', User.current.id)
-      Find.find("#{RAILS_ROOT}/tmp/") do |f|
+      if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
+        path = "#{RAILS_ROOT}/tmp/"
+      else
+        path = "#{Rails.root}/tmp/"
+      end
+      Find.find(path) do |f|
         if (f[ss]!=nil)
           File.delete(f)
         end

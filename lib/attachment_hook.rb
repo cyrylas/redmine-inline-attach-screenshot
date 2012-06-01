@@ -13,7 +13,11 @@ module AttachmentHook
       if screenshots && screenshots.is_a?(Hash)
         screenshots.each_pair do |key, screenshot|
           key  = key.gsub("thumb", "screenshot")
-          path = "#{RAILS_ROOT}/tmp/" + key
+          if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
+            path = "#{RAILS_ROOT}/tmp/" + key
+          else
+            path = "#{Rails.root}/tmp/" + key
+          end
           file = File.open(path, "rb")
 
           def file.init(name)

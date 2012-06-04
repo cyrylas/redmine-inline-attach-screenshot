@@ -47,7 +47,11 @@ module AttachmentHook
           file.close()
           File.delete(path)
           key  = key.gsub("screenshot", "thumb")
-          path = "#{RAILS_ROOT}/tmp/" + key
+          if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
+            path = "#{RAILS_ROOT}/tmp/" + key
+          else
+            path = "#{Rails.root}/tmp/" + key
+          end
           begin
             File.delete(path)
           rescue

@@ -2,7 +2,11 @@ class AttachScreenshotController < ApplicationController
   unloadable
   skip_before_filter :require_login
   skip_before_filter :verify_authenticity_token
-  accept_api_auth :index
+  if Redmine::VERSION::MAJOR == 1 and Redmine::VERSION::MINOR <= 3 then
+    accept_key_auth :index
+  else
+    accept_api_auth :index
+  end
 
   def index
     if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then

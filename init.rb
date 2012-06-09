@@ -11,7 +11,7 @@ Redmine::Plugin.register :redmine_inline_attach_screenshot do
   author 'Konstantin Zaitsev, Sergei Vasiliev, Alexandr Poplavsky, Axmor Software, Jens Alfke, Renzo Meister, William Roush'
   author_url 'https://bitbucket.org/StrangeWill/redmine-inline-attach-screenshot/'
   description 'Attach screenshots from clipboard directly to a Redmine issue.'
-  version '0.3.4'
+  version '0.3.5'
   
   if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
     Dispatcher.to_prepare do

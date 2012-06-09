@@ -1,7 +1,10 @@
 class AttachScreenshotController < ApplicationController
   unloadable
-  skip_before_filter :require_login
+  skip_before_filter :check_if_login_required
   skip_before_filter :verify_authenticity_token
+  
+  # Redmine 1.3 and prior use accept_key_auth to enforce auth 
+  # via the key we hand to the applet.
   if Redmine::VERSION::MAJOR == 1 and Redmine::VERSION::MINOR <= 3 then
     accept_key_auth :index
   else

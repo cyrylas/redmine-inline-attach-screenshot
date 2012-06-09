@@ -1,4 +1,3 @@
-require 'account_controller'
 if RUBY_VERSION >= '1.9'
 	require 'fileutils'
 else

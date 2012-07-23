@@ -1,3 +1,7 @@
+<%
+	currItem = @issue
+	currItem ||= @wiki
+%>
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'attach_screenshot', :plugin => 'redmine_inline_attach_screenshot' %>
     <%= javascript_include_tag 'attach_screenshot', :plugin => 'redmine_inline_attach_screenshot' %>
@@ -15,12 +19,12 @@
 </small>
 <br />
 <br />
-<% if @issue %>
-	<% if @issue.new_record? %>
+<% if currItem %>
+	<% if currItem.new_record? %>
 		<label>
 	<% end %>
 	<%= l(:label_screenshots) %>
-	<% if @issue.new_record? %>
+	<% if currItem.new_record? %>
 		</label>
 	<% else %>
 		<br />

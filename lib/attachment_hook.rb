@@ -4,6 +4,9 @@ module AttachmentHook
   class Hooks < Redmine::Hook::ViewListener
   
     def attach_screenshots (context ={})
+      # Support for both issues and wiki pages.
+      attachItem = context[:issue]
+      attachItem ||= context[:page]
       issue       = context[:issue]
       journal     = context[:journal]
       params      = context[:params]
@@ -39,10 +42,10 @@ module AttachmentHook
           file.init(key)
 
           next unless file && file.size > 0
-          a = Attachment.create(:container   => issue,
-                                :file        => file,
-                                :description => screenshot['description'].to_s.strip,
-                                :author      => User.current)
+          a = Attachment.create(:container => attachItem,
+            :file => file,
+            :description => screenshot['description'].to_s.strip,
+            :author => User.current)
 
           file.close()
           File.delete(path)
@@ -61,8 +64,8 @@ module AttachmentHook
           else
             if journal
               journal.details << JournalDetail.new(:property => 'attachment',
-                                                   :prop_key => a.id,
-                                                   :value    => a.filename)
+                :prop_key => a.id,
+                :value    => a.filename)
             end
           end
         end
@@ -80,5 +83,8 @@ module AttachmentHook
       attach_screenshots(context)
     end
 
+    def controller_wiki_edit_after_save (context ={})
+      attach_screenshots(context)
+    end
   end
 end

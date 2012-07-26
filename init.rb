@@ -1,4 +1,5 @@
 require 'application_patch'
+require 'wiki_controller_patch'
 require 'cleanup_tmp'
 require_dependency 'attachment_hook'
 if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
@@ -16,11 +17,13 @@ Redmine::Plugin.register :redmine_inline_attach_screenshot do
   if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
     Dispatcher.to_prepare do
       ApplicationController.send(:include, AttachScreenshotPlugin::ApplicationControllerPatch)
+      WikiController.send(:include, AttachScreenshotPlugin::WikiControllerPatch)
       AccountController.send(:include, AttachScreenshotPlugin::CleanupTmp)
     end
   else
     Rails.configuration.to_prepare do 
       ApplicationController.send(:include, AttachScreenshotPlugin::ApplicationControllerPatch)
+      WikiController.send(:include, AttachScreenshotPlugin::WikiControllerPatch)
       AccountController.send(:include, AttachScreenshotPlugin::CleanupTmp)
     end
   end

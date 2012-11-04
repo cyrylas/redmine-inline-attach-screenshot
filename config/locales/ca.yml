@@ -1,0 +1,10 @@
+ca:
+  label_screenshots: Captures de pantalla
+  label_add_another_screenshot: Afegir una altra captura de pantalla
+  label_button_paste: Enganxa imatge des del porta-retalls
+  label_image: Captura de pantalla
+  button_attach: Adjunta
+  error_close_msg: "No es pot tancar la miniaplicació, {0}"
+  error_close_title: Error
+  error_attach_msg: Error, {0}
+  error_attach_title: "S'ha produït un error en adjuntar"

@@ -1,0 +1,10 @@
+fr:
+  label_screenshots: Capture d'écran
+  label_add_another_screenshot: Ajouter une autre capture
+  label_button_paste: Coller l'image dans le presse-papier
+  label_image: Capture d'écran
+  button_attach: Ajouter
+  error_close_msg: Impossible de fermer l'applet, {0}
+  error_close_title: Erreur
+  error_attach_msg: Erreur, {0}
+  error_attach_title: Erreur lors de l'ajout

@@ -1,0 +1,10 @@
+es:
+  label_screenshots: Capturas de Pantalla
+  label_add_another_screenshot: Agregar otra captura
+  label_button_paste: Pegar desde el portapapeles
+  label_image: Captura de Pantalla
+  button_attach: Adjuntar
+  error_close_msg: No se puede cerrar el applet, {0}
+  error_close_title: Error
+  error_attach_msg: Error, {0}
+  error_attach_title: Error al adjuntar

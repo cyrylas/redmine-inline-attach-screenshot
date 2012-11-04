@@ -7,6 +7,9 @@ Redmine Compatible Versions:
 
 Change Log:
 
+0.4.3:
+    - Adding languges for Simplified Chinese, German, Spanish and French
+
 0.3.1:
 	- Redmine 2.0 compatability fix.
 
@@ -14,3 +17,7 @@ Credits:
 Authors: Konstantin Zaitcev (kos@axmor.com), Sergei Vasilyev (vsv@axmor.com), Alexandr Poplavsky (poplavsky@axmor.com), StrangeWill.
 Inspired by Atlassian JIRA (http://www.atlassian.com/software/jira)
 Work sponsored by Axmor Software (http://www.axmor.com)
+
+Additional translations provided by: Paps, Raphael Kallensee, César Roldán and archonwang. 
+
+Thanks everyone!

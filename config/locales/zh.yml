@@ -1,0 +1,14 @@
+# Simplified Chinese strings go here for Rails i18n
+# Author: Steven.W
+# Based on file: en.yml
+
+zh:
+  label_screenshots: 截图
+  label_add_another_screenshot: 另新增截图
+  label_button_paste: 从剪贴板中粘贴图片
+  label_image: 截图
+  button_attach: 附上
+  error_close_msg: 无法关闭Applet程序, {0}
+  error_close_title: 错误
+  error_attach_msg: 错误, {0}
+  error_attach_title: 附上时系统错误

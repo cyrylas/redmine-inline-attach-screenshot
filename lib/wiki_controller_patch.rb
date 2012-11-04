@@ -1,6 +1,10 @@
 module AttachScreenshotPlugin
   module WikiControllerPatch
     def self.included(base)
+      # If the user is running an older version of Redmine we're not going to do this...
+      if Redmine::VERSION::MAJOR == 1 and Redmine::VERSION::MINOR < 3 then
+        return
+      end
       base.class_eval do
         # This method needs to be overridden when editing a wiki page, adding a file, but not editing content.
         def update_with_plugin

@@ -1,10 +1,10 @@
 de:
   label_screenshots: Screenshots
-  label_add_another_screenshot: Weiteren Screenshot hinzuf¸gen
-  label_button_paste: Bild aus der Zwischenablage einf¸gen
+  label_add_another_screenshot: Weiteren Screenshot hinzuf√ºgen
+  label_button_paste: Bild aus der Zwischenablage einf√ºgen
   label_image: Screenshot
-  button_attach: Anh‰ngen
-  error_close_msg: Kann Applet nicht schlieﬂen, {0}
+  button_attach: Anh√§ngen
+  error_close_msg: Kann Applet nicht schlie√üen, {0}
   error_close_title: Fehler
   error_attach_msg: Fehler, {0}
-  error_attach_title: Fehler beim Anh‰ngen
+  error_attach_title: Fehler beim Anh√§ngen

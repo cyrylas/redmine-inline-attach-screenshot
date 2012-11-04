@@ -1,6 +1,9 @@
 <%
 	currItem = @issue
-	currItem ||= @wiki
+    if Redmine::VERSION::MAJOR >= 2 or
+        (Redmine::VERSION::MAJOR == 1 and Redmine::VERSION::MINOR < 3) then
+        currItem ||= @wiki
+    end
 %>
 <% content_for :header_tags do %>
     <%= stylesheet_link_tag 'attach_screenshot', :plugin => 'redmine_inline_attach_screenshot' %>
@@ -54,13 +57,13 @@
 				'Applet</applet>';
 		}
 		function addAttachScreen(fileId) {
-			var s = document.createElement("span");
+			var s = document.createElement("div");
 			s.id = fileId;
 			s.className = "screen_thumb";
 
-			var s1 = document.createElement("span");
+			var s1 = document.createElement("div");
 			s1.className = "st1";
-			var s2 = document.createElement("span");
+			var s2 = document.createElement("div");
 			s2.className = "st2";
 
 			var im = document.createElement("img");

@@ -1,12 +1,11 @@
 === Redmine Inline Attach Screenshot ===
 
 Redmine Compatible Versions:
-    2.1.x
-	2.0.x
-	1.4.x
-	
+  2.3.x
 
 Change Log:
+0.4.6:
+    - Added support for new multi-file uploads (thanks YongKi Kim!), probably breaks 2.2 and prior.
 
 0.4.5:
     - Add Catalan (CA) translation.

@@ -4,6 +4,6 @@ if Gem::Version.new("3.0") > Gem::Version.new(Rails.version) then
   end
 else
   RedmineApp::Application.routes.draw do
-    match 'attach_screenshot', :to => 'attach_screenshot#index'
+	match 'attach_screenshot', :to => 'attach_screenshot#index', via: :all
   end
 end
